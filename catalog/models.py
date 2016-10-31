@@ -42,7 +42,7 @@ class Product(models.Model):
     is_available = models.BooleanField(default=True, verbose_name="В наличие")
     category = TreeForeignKey(Category, blank=True, null=True, related_name='cat', verbose_name="Категория")
     image = models.ImageField(verbose_name="Изображение", default="product/no-image.png", upload_to="product")
-    position = models.IntegerField(verbose_name="Позиция")
+    position = models.PositiveIntegerField(verbose_name="Позиция", default=10)
 
     class Meta:
         verbose_name = "Товар"
