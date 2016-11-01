@@ -47,7 +47,7 @@ class Migration(migrations.Migration):
                 ('name', models.CharField(max_length=254, verbose_name='Базовое имя')),
                 ('name_values', models.CharField(max_length=254, verbose_name='Имя')),
                 ('price', models.FloatField(verbose_name='Цена', null=True, blank=True)),
-                ('description', models.fields.CharField(verbose_name='Описание', null=True, blank=True)),
+                ('description', models.CharField(max_length=254, verbose_name='Описание', null=True, blank=True)),
                 ('code', models.CharField(max_length=32, verbose_name='Код товара', null=True, blank=True)),
                 ('is_available', models.BooleanField(verbose_name='В наличие', default=True)),
                 ('position', models.IntegerField(verbose_name='Позиция')),
