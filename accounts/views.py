@@ -1,16 +1,23 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404, resolve_url
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.tokens import default_token_generator
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
+from django.template.response import TemplateResponse
+from django.views.decorators.csrf import csrf_protect
+from django.utils.translation import ugettext as _
+from django.contrib.auth.forms import PasswordResetForm
 from .forms import MyAuthenticationForm, MyUserCreationForm, UserActivationForm
 from .models import User, Profile
 from .utils import send_mail_function
+
+
 # Create your views here.
 
-
+@csrf_protect
 def user_login(request):
     if request.POST:
         form = MyAuthenticationForm(data=request.POST)
@@ -27,6 +34,7 @@ def user_login(request):
     return render(request, 'account-login.html', {'form': form})
 
 
+@csrf_protect
 def user_register(request):
     if request.POST:
         form = MyUserCreationForm(data=request.POST)
@@ -53,6 +61,7 @@ def user_logout(request):
     return redirect('/')
 
 
+@csrf_protect
 def user_activation(request):
     if request.POST:
         form = UserActivationForm(data=request.POST)
@@ -88,3 +97,37 @@ def user_activation_confirm(request, key):
         instance.delete()
     return HttpResponseRedirect(reverse('user_activation_done'))
 
+
+@csrf_protect
+def user_password_reset(request,
+                        template_name='account-password-reset.html',
+                        email_template_name='registration/password_reset_email.html',
+                        subject_template_name='registration/password_reset_subject.txt',
+                        password_reset_form=PasswordResetForm,
+                        token_generator=default_token_generator,
+                        from_email=None,
+                        html_email_template_name=None):
+    if request.method == "POST":
+        form = password_reset_form(request.POST)
+        if form.is_valid():
+            opts = {
+                'use_https': request.is_secure(),
+                'token_generator': token_generator,
+                'from_email': from_email,
+                'email_template_name': email_template_name,
+                'subject_template_name': subject_template_name,
+                'request': request,
+                'html_email_template_name': html_email_template_name,
+            }
+
+            email = form.cleaned_data['email']
+            try:
+                instance = User.objects.get(email=email, is_active=True)
+                messages.success(request, "На вашу электронную почту было отправлено письмо с инструкцией по смене пароля")
+            except ObjectDoesNotExist:
+                messages.warning(request, "Этот аккаунт не активирован или отключен")
+            form.save(**opts)
+            return HttpResponseRedirect(reverse('password_reset'))
+    else:
+        form = password_reset_form()
+    return render(request, template_name, {"form": form})

@@ -1,5 +1,5 @@
 from django.conf.urls import url
-from .views import user_login, user_register, user_logout, user_activation, user_activation_confirm, user_activation_done
+from .views import user_login, user_register, user_logout, user_activation, user_activation_confirm, user_activation_done, user_password_reset
 from django.contrib.auth import views as auth_views
 
 urlpatterns = [
@@ -9,16 +9,7 @@ urlpatterns = [
     url(r'^activation/$', user_activation, name='user_activation'),
     url(r'^activation/done/$', user_activation_done, name="user_activation_done"),
     url(r'^activation/(?P<key>\w+)/$', user_activation_confirm, name="user_activation_confirm"),
-
-    url(r'^password_reset/$',
-        auth_views.password_reset,
-        {"template_name": "account-password-reset.html"},
-        name='password_reset'),
-
-    url(r'^password_reset/done/$',
-        auth_views.password_reset_done,
-        {"template_name": "account-password-reset-done.html"},
-        name='password_reset_done'),
+    url(r'^password_reset/$', user_password_reset, name='password_reset'),
 
     url(r'^reset/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',
         auth_views.password_reset_confirm,
@@ -29,6 +20,7 @@ urlpatterns = [
         auth_views.password_reset_complete,
         {"template_name": "account-password-reset-complete.html"},
         name='password_reset_complete'),
+
 
     url(r'^password_change/$',
         auth_views.password_change,
