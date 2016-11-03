@@ -1,0 +1,11 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %}Аккаунт активирован{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="alert alert-success">
+            <p class="text-center">Ваш аккаунт был успешно активирован, теперь вы можете <a href="{% url 'login' %}">Войти</a></p>
+        </div>
+    </div>
+{% endblock %}

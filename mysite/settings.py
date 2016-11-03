@@ -27,6 +27,9 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
+# Custom Auth
+AUTH_USER_MODEL = 'accounts.User'
+
 # Application definition
 
 INSTALLED_APPS = (
@@ -41,6 +44,8 @@ INSTALLED_APPS = (
     'bootstrap3',
     'contacts',
     'catalog',
+    'ecommerce',
+    'accounts',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -122,3 +127,16 @@ STATICFILES_DIRS = [
 MEDIA_URL = '/media/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+
+# Email
+
+from .local_settings import *
+
+EMAIL_USE_TLS = EMAIL_USE_TLS
+EMAIL_HOST = EMAIL_HOST
+EMAIL_PORT = EMAIL_PORT
+EMAIL_HOST_USER = EMAIL_HOST_USER
+EMAIL_HOST_PASSWORD = EMAIL_HOST_PASSWORD
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+#KEY_EXPIRES_DAYS = 3
