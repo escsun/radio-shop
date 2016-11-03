@@ -42,7 +42,7 @@ class ContactsViewTest(TestCase):
         self.assertTrue(response.status_code, 200)
 
     def test_contact_messages_valid(self):
-        # """Проверяем получение сообщения после отправки сообщения"""
+        """Проверяем получение сообщения после отправки сообщения"""
         response = self.client.post(reverse('contacts'), data={"name": "test name", "email": "test@mail.com", "message": "this is test message"}, follow=True)
         messages = list(response.context["messages"])
         self.assertEqual(len(messages), 1)
