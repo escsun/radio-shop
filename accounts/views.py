@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect, get_object_or_404, resolve_url
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.tokens import default_token_generator
@@ -6,16 +6,12 @@ from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
-from django.template.response import TemplateResponse
 from django.views.decorators.csrf import csrf_protect
-from django.utils.translation import ugettext as _
 from django.contrib.auth.forms import PasswordResetForm
 from .forms import MyAuthenticationForm, MyUserCreationForm, UserActivationForm
 from .models import User, Profile
 from .utils import send_mail_function
 
-
-# Create your views here.
 
 @csrf_protect
 def user_login(request):
@@ -123,7 +119,8 @@ def user_password_reset(request,
             email = form.cleaned_data['email']
             try:
                 instance = User.objects.get(email=email, is_active=True)
-                messages.success(request, "На вашу электронную почту было отправлено письмо с инструкцией по смене пароля")
+                messages.success(request,
+                                 "На вашу электронную почту было отправлено письмо с инструкцией по смене пароля")
             except ObjectDoesNotExist:
                 messages.warning(request, "Этот аккаунт не активирован или отключен")
             form.save(**opts)
