@@ -15,13 +15,13 @@ class User(AbstractBaseUser, PermissionsMixin):
         Username, password and email are required. Other fields are optional.
         """
     username = models.CharField(_('username'), max_length=30, unique=True,
-                                help_text=_('Required. 30 characters or fewer. Letters, digits and '
-                                            '@/./+/-/_ only.'),
+                                help_text=_('Требуется, не больше 30 символов или меньше, '
+                                            'латинские буквы, числа, знаки подчеркивания и дефис.'),
                                 validators=[
-                                    validators.RegexValidator(r'^[\w.@+-]+$',
-                                                              _('Enter a valid username. '
-                                                                'This value may contain only letters, numbers '
-                                                                'and @/./+/-/_ characters.'), 'invalid'),
+                                    validators.RegexValidator(r'^[A-z0-9_-]+$',
+                                                              ('Логин может содержать только латинские буквы, '
+                                                               'числа, знаки подчеркивания и дефис. '
+                                                               'Ограничения не больше 30 символов или меньше.'), 'invalid'),
                                 ],
                                 error_messages={
                                     'unique': _("A user with that username already exists."),
@@ -30,8 +30,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     last_name = models.CharField(_('last name'), max_length=30, blank=True)
     email = models.EmailField(_('email address'), unique=True,
                               error_messages={
-            'unique': _("Пользователь с таким электронным адресом уже существует."),
-        })
+                                  'unique': _("Пользователь с таким электронным адресом уже существует."),
+                              })
     is_staff = models.BooleanField(_('staff status'), default=False,
                                    help_text=_('Designates whether the user can log into this admin '
                                                'site.'))
@@ -71,4 +71,4 @@ class User(AbstractBaseUser, PermissionsMixin):
 class Profile(models.Model):
     user = models.ForeignKey(User, related_name="profile")
     activation_key = models.CharField(max_length=64)
-    #key_expires = models.DateTimeField()
+    # key_expires = models.DateTimeField()
