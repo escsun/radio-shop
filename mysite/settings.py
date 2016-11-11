@@ -44,7 +44,6 @@ INSTALLED_APPS = (
     'bootstrap3',
     'contacts',
     'catalog',
-    'ecommerce',
     'accounts',
 )
 
@@ -60,6 +59,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
 )
+
 
 ROOT_URLCONF = 'mysite.urls'
 
@@ -138,5 +138,3 @@ EMAIL_PORT = EMAIL_PORT
 EMAIL_HOST_USER = EMAIL_HOST_USER
 EMAIL_HOST_PASSWORD = EMAIL_HOST_PASSWORD
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
-
-#KEY_EXPIRES_DAYS = 3
