@@ -1,0 +1,28 @@
+body, html {
+  margin: 0;
+  padding: 0; }
+
+li, ul {
+  list-style: none; }
+
+tr, th, td {
+  border: 1px solid black;
+  padding: 3px; }
+
+.parent {
+  display: table;
+  width: 100%; }
+
+.child {
+  display: table-cell;
+  vertical-align: middle;
+  text-align: center; }
+
+.list-group-submenu {
+  margin-left: 15px;
+  margin-bottom: -1px; }
+
+.thumbnail:hover {
+  border-color: #111111; }
+
+/*# sourceMappingURL=site.css.map */
