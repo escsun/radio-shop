@@ -14,15 +14,15 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Category',
             fields=[
-                ('id', models.AutoField(auto_created=True, verbose_name='ID', serialize=False, primary_key=True)),
-                ('name', models.CharField(max_length=254, db_index=True, verbose_name='Имя')),
-                ('image', models.ImageField(upload_to='category', verbose_name='Изображение', null=True, blank=True)),
-                ('position', models.PositiveIntegerField(verbose_name='Позиция', default=0)),
-                ('lft', models.PositiveIntegerField(db_index=True, editable=False)),
-                ('rght', models.PositiveIntegerField(db_index=True, editable=False)),
-                ('tree_id', models.PositiveIntegerField(db_index=True, editable=False)),
-                ('level', models.PositiveIntegerField(db_index=True, editable=False)),
-                ('parent', mptt.fields.TreeForeignKey(verbose_name='Категория', related_name='children', blank=True, null=True, to='catalog.Category')),
+                ('id', models.AutoField(verbose_name='ID', auto_created=True, primary_key=True, serialize=False)),
+                ('name', models.CharField(verbose_name='Имя', max_length=254, db_index=True)),
+                ('image', models.ImageField(default='category/no-image.png', upload_to='category', verbose_name='Изображение')),
+                ('position', models.PositiveIntegerField(default=0, verbose_name='Позиция')),
+                ('lft', models.PositiveIntegerField(editable=False, db_index=True)),
+                ('rght', models.PositiveIntegerField(editable=False, db_index=True)),
+                ('tree_id', models.PositiveIntegerField(editable=False, db_index=True)),
+                ('level', models.PositiveIntegerField(editable=False, db_index=True)),
+                ('parent', mptt.fields.TreeForeignKey(null=True, related_name='children', to='catalog.Category', verbose_name='Категория', blank=True)),
             ],
             options={
                 'verbose_name_plural': 'Категории',
@@ -32,8 +32,8 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Name',
             fields=[
-                ('id', models.AutoField(auto_created=True, verbose_name='ID', serialize=False, primary_key=True)),
-                ('name', models.CharField(max_length=32, unique=True, verbose_name='Наименование')),
+                ('id', models.AutoField(verbose_name='ID', auto_created=True, primary_key=True, serialize=False)),
+                ('name', models.CharField(verbose_name='Наименование', max_length=32, unique=True)),
             ],
             options={
                 'verbose_name_plural': 'Наименования',
@@ -43,15 +43,15 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Product',
             fields=[
-                ('id', models.AutoField(auto_created=True, verbose_name='ID', serialize=False, primary_key=True)),
-                ('name', models.CharField(max_length=254, verbose_name='Базовое имя')),
-                ('name_values', models.CharField(max_length=254, verbose_name='Имя')),
-                ('price', models.FloatField(verbose_name='Цена', null=True, blank=True)),
-                ('description', models.CharField(max_length=254, verbose_name='Описание', null=True, blank=True)),
-                ('code', models.CharField(max_length=32, verbose_name='Код товара', null=True, blank=True)),
-                ('is_available', models.BooleanField(verbose_name='В наличие', default=True)),
-                ('position', models.IntegerField(verbose_name='Позиция')),
-                ('category', mptt.fields.TreeForeignKey(verbose_name='Категория', related_name='cat', blank=True, null=True, to='catalog.Category')),
+                ('id', models.AutoField(verbose_name='ID', auto_created=True, primary_key=True, serialize=False)),
+                ('name', models.CharField(verbose_name='Базовое имя', max_length=254)),
+                ('name_values', models.CharField(verbose_name='Имя', max_length=254)),
+                ('price', models.FloatField(null=True, verbose_name='Цена', blank=True)),
+                ('code', models.CharField(null=True, verbose_name='Код товара', max_length=32, blank=True)),
+                ('is_available', models.BooleanField(default=True, verbose_name='В наличие')),
+                ('image', models.ImageField(default='product/no-image.png', upload_to='product', verbose_name='Изображение')),
+                ('position', models.PositiveIntegerField(default=10, verbose_name='Позиция')),
+                ('category', mptt.fields.TreeForeignKey(null=True, related_name='cat', to='catalog.Category', verbose_name='Категория', blank=True)),
             ],
             options={
                 'verbose_name_plural': 'Товары',
@@ -61,11 +61,11 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Value',
             fields=[
-                ('id', models.AutoField(auto_created=True, verbose_name='ID', serialize=False, primary_key=True)),
-                ('value', models.CharField(max_length=64, verbose_name='Значение', null=True)),
-                ('visible', models.BooleanField(verbose_name='Отображать', default=1)),
-                ('name', models.ForeignKey(verbose_name='Наименование', to='catalog.Name')),
-                ('product', models.ForeignKey(verbose_name='Товар', null=True, to='catalog.Product')),
+                ('id', models.AutoField(verbose_name='ID', auto_created=True, primary_key=True, serialize=False)),
+                ('value', models.CharField(null=True, verbose_name='Значение', max_length=64)),
+                ('visible', models.BooleanField(default=1, verbose_name='Отображать')),
+                ('name', models.ForeignKey(to='catalog.Name', verbose_name='Наименование')),
+                ('product', models.ForeignKey(null=True, to='catalog.Product', verbose_name='Товар')),
             ],
             options={
                 'verbose_name_plural': 'Характеристики',
