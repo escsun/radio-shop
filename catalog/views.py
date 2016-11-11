@@ -6,7 +6,7 @@ from django.contrib import messages
 def catalog_index(request, id=None):
     categories = Category.objects.filter(parent_id=id)
     if not categories:
-        products = Product.objects.filter(category_id=id)
+        products = Product.objects.filter(category_id=id, is_available=True)
         category = Category.objects.get(id=id)
         if not products:
             messages.error(request, "В данной категории товаров нет")
