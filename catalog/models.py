@@ -7,7 +7,7 @@ class Category(MPTTModel):
     """Модель категорий - Список категорий товаров"""
     name = models.CharField(max_length=254, verbose_name="Имя", db_index=True)
     parent = TreeForeignKey('self', null=True, blank=True, related_name='children', db_index=True, verbose_name="Категория")
-    image = models.ImageField(verbose_name="Изображение", default="category/no-image.png", upload_to="category")
+    image = models.ImageField(verbose_name="Изображение", upload_to="category", blank=True, null=True)
     position = models.PositiveIntegerField(default=0, verbose_name="Позиция")
 
     class MPTTMeta:
@@ -41,7 +41,7 @@ class Product(models.Model):
     code = models.CharField(max_length=32, verbose_name="Код товара", blank=True, null=True,)
     is_available = models.BooleanField(default=True, verbose_name="В наличие")
     category = TreeForeignKey(Category, blank=True, null=True, related_name='cat', verbose_name="Категория")
-    image = models.ImageField(verbose_name="Изображение", default="product/no-image.png", upload_to="product")
+    image = models.ImageField(verbose_name="Изображение", upload_to="product", blank=True, null=True)
     position = models.PositiveIntegerField(verbose_name="Позиция", default=10)
 
     class Meta:
@@ -72,8 +72,8 @@ class Value(models.Model):
     visible = models.BooleanField(default=1, verbose_name="Отображать")
 
     class Meta:
-        verbose_name_plural = "Характеристики"
-        verbose_name = "Характерстика"
+        verbose_name_plural = "Наименования"
+        verbose_name = "Наименование"
 
     def __str__(self):
         return "%s - %s" % (self.name, self.value)
