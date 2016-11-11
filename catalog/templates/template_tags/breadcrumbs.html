@@ -5,7 +5,7 @@
     {% endfor %}
     {% if product %}
         <li><a href="{% url 'category' id=product.category.id %}">{{ category.name }}</a></li>
-        <li>{{ product.name }}</li>
+        <li>{{ product.name_values }}</li>
     {% else %}
         <li>{{ category.name }}</li>
     {% endif %}
