@@ -1,8 +1,9 @@
 from django.conf.urls import url
-from .views import categories_and_products, get_one_product
+from .views import catalog_index, catalog_product_detail
 
 
 urlpatterns = [
-    url(r'^category/(?P<id>\d+)/$', categories_and_products, name='category'),
-    url(r'^product/(?P<id>\d+)/$', get_one_product, name='product'),
+    url(r'^$', catalog_index, name='index'),
+    url(r'^category/(?P<id>\d+)/$', catalog_index, name='category'),
+    url(r'^product/(?P<id>\d+)/$', catalog_product_detail, name='product'),
 ]
