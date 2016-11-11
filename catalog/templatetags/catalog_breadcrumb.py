@@ -4,7 +4,8 @@ register = template.Library()
 
 
 @register.inclusion_tag('template_tags/breadcrumbs.html')
-def catalog_breadcrumb(category):
+def catalog_breadcrumb(category, product=None):
     return {
-        'category': category
+        'category': category,
+        'product': product
     }

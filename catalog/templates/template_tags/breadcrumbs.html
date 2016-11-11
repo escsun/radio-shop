@@ -3,5 +3,11 @@
     {% for parent in category.get_ancestors %}
         <li><a href="{% url 'category' id=parent.id %}">{{ parent.name }}</a></li>
     {% endfor %}
-    <li>{{ category.name }}</li>
+    {% if product %}
+        <li><a href="{% url 'category' id=product.category.id %}">{{ category.name }}</a></li>
+        <li>{{ product.name }}</li>
+    {% else %}
+        <li>{{ category.name }}</li>
+    {% endif %}
+
 </ul>
