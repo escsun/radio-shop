@@ -28,18 +28,20 @@ def catalog_index(request, id=None, per_page=20):
         return render(request, 'catalog_products.html', {
             "products": products,
             "category": category,
-            'products_list': products_list
+            "products_list": products_list
         })
     return render(request, 'catalog_base.html', {
         "categories": categories,
-        'category': category
+        "category": category
     })
 
 
 def catalog_product_detail(request, id):
     product = Product.objects.get(id=id)
+    category = Category.objects.get(id=product.category.id)
     values = Value.objects.filter(product_id=id)
     return render(request, 'catalog_product_detail.html', {
         "product": product,
-        'values': values
+        "values": values,
+        "category": category
     })
