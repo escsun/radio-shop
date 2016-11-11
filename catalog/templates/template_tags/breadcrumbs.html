@@ -1,0 +1,7 @@
+<ul class="breadcrumb">
+    <li><a href="{% url 'index' %}">Каталог</a></li>
+    {% for parent in category.get_ancestors %}
+        <li><a href="{% url 'category' id=parent.id %}">{{ parent.name }}</a></li>
+    {% endfor %}
+    <li>{{ category.name }}</li>
+</ul>
