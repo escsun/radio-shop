@@ -1,0 +1,28 @@
+{% load mptt_tags %}
+{% full_tree_for_model catalog.Category as category_tree %}
+
+<div id="menu">
+    <div class="list-group panel panel-collapse">
+        {% recursetree category_tree %}
+            {% if not node.is_leaf_node %}
+                {% if node.is_root_node %}
+                    <a href="#section{{ node.id }}" class="list-group-item collapsed" data-toggle="collapse"
+                       data-parent="#menu">{{ node.name }} <span class="badge">+</span>
+                    </a>
+                    <div id="section{{ node.get_root.id }}" class="list-group-submenu collapse">
+                        {{ children }}
+                    </div>
+                {% else %}
+                    <a href="#section{{ node.id }}" class="list-group-item collapsed" data-toggle="collapse"
+                       data-parent="#section{{ node.get_parent.id }}">{{ node.name }} <span class="badge">+</span>
+                    </a>
+                    <div id="section{{ node.id }}" class="list-group-submenu collapse">
+                        {{ children }}
+                    </div>
+                {% endif %}
+            {% else %}
+                <a href="{% url 'category' id=node.id %}" class="list-group-item">{{ node.name }}</a>
+            {% endif %}
+        {% endrecursetree %}
+    </div>
+</div>

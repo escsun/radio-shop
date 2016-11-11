@@ -1,0 +1,43 @@
+{% extends 'layouts/base.html' %}
+
+{% load static %}
+
+{% block title %}Главная{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                {% include 'includes/sidebar.html' %}
+            </div>
+            <div class="col-md-8">
+                {% block dynamic_catalog %}
+                    {% for category in categories %}
+                        {% if forloop.first %}
+                            <div class="row">
+                        {% endif %}
+                    <div class="col-md-4">
+                        <a href="{% url 'category' id=category.id %}" class="thumbnail">
+                            <div class="parent">
+                                <div class="child">
+                                    <h4 class="text-center">{{ category.name }}</h4>
+                                </div>
+                            </div>
+                            {% if category.image %}
+                                <img src="{{ MEDIA_URL }}{{ category.image }}" height="240px" class="img-responsive">
+                            {% else %}
+                                <img src="{% static 'images/no-image.png' %}" height="240px" class="img-responsive">
+                            {% endif %}
+                        </a>
+                    </div>
+                        {% if forloop.counter|divisibleby:3 %}
+                            </div><div class="row">
+                        {% endif %}
+                    {% endfor %}
+                {% endblock dynamic_catalog %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="{% static 'js/jquery.catalog.height.js' %}"></script>
+{% endblock %}
