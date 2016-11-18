@@ -5,7 +5,7 @@ from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.core.exceptions import ObjectDoesNotExist
 
 
-def catalog_index(request, id=None, per_page=20):
+def catalog_index(request, id=None):
     categories = Category.objects.filter(parent_id=id)
 
     try:
@@ -15,7 +15,7 @@ def catalog_index(request, id=None, per_page=20):
 
     if not categories:
         products_list = Product.objects.filter(category_id=id, is_available=True)
-        paginator = Paginator(products_list, per_page=per_page)
+        paginator = Paginator(products_list, per_page=25)
         page = request.GET.get('page')
         try:
             products = paginator.page(page)
@@ -27,13 +27,13 @@ def catalog_index(request, id=None, per_page=20):
             messages.error(request, "В данной категории товаров нет")
         return render(request, 'catalog_products.html', {
             "products": products,
-            "category": category,
-            "products_list": products_list
+            "category": category
         })
-    return render(request, 'catalog_base.html', {
+    response = render(request, 'catalog_base.html', {
         "categories": categories,
         "category": category
     })
+    return response
 
 
 def catalog_product_detail(request, id):
