@@ -1,0 +1,61 @@
+{% extends 'layouts/base.html' %}
+
+{% load static %}
+
+{% block head %}
+
+{% endblock %}
+
+{% block title %}
+
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <h1>Ваша корзина товаров</h1>
+            <table class="cart" style="width: 100%">
+                <thead>
+                <tr>
+                    <th>Изображение</th>
+                    <th>Продукт</th>
+                    <th>Количество</th>
+                    <th>Удалить</th>
+                    <th>Цена</th>
+                    <th>Полная цена</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for item in cart %}
+                    {% with product=item.product %}
+                        <tr>
+                            <td>
+                                <a href="{{ product.get_absolute_url }}">
+                                    {% if product.image %}
+                                        <img src="{{ product.image }}" alt=""/>
+                                    {% else %}
+                                        <img src="{% static 'images/no-image.png' %}" height="240px">
+                                    {% endif %}
+
+                                </a>
+                            </td>
+                            <td>{{ product.name }}</td>
+                            <td>{{ item.quantity }}</td>
+                            <td><a href="{% url "cart_remove" id=product.id %}">Удалить</a></td>
+                            <td class="num">{{ item.price }} грн.</td>
+                            <td class="num">{{ item.total_price }} грн.</td>
+                        </tr>
+                    {% endwith %}
+                {% endfor %}
+                <tr class="total">
+                    <td>Total</td>
+                    <td colspan="4"></td>
+                    <td class="num">{{ cart.get_total_price }} грн.</td>
+                </tr>
+                </tbody>
+            </table>
+            <a href="#" role="button" class="btn btn-primary pull-right" style="margin-top: 25px; width: 150px">Оформить заказ</a>
+        </div>
+    </div>
+
+{% endblock %}

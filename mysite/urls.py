@@ -20,6 +20,7 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     url(r'^', include('catalog.urls')),
+    url(r'^cart/', include('cart.urls')),
     url(r'^contacts/', include('contacts.urls')),
     url(r'^accounts/', include('accounts.urls')),
     url(r'^admin/', include(admin.site.urls)),

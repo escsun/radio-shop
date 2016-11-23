@@ -1,8 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from .models import Category, Product, Value
 from django.contrib import messages
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.core.exceptions import ObjectDoesNotExist
+from cart.forms import CartAddProductForm
 
 
 def catalog_index(request, id=None):
@@ -17,6 +18,7 @@ def catalog_index(request, id=None):
         products_list = Product.objects.filter(category_id=id, is_available=True)
         paginator = Paginator(products_list, per_page=25)
         page = request.GET.get('page')
+        cart_product_form = CartAddProductForm()
         try:
             products = paginator.page(page)
         except PageNotAnInteger:
@@ -27,7 +29,8 @@ def catalog_index(request, id=None):
             messages.error(request, "В данной категории товаров нет")
         return render(request, 'catalog_products.html', {
             "products": products,
-            "category": category
+            "category": category,
+            "cart_product_form": cart_product_form
         })
     response = render(request, 'catalog_base.html', {
         "categories": categories,
